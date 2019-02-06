@@ -35,13 +35,12 @@ def index(request):
 	response = render(request, 'rango/index.html', context=context_dict)
 	return response
 
-@login_required
 def about(request):
+	visitor_cookie_handler(request)
 	if request.session.test_cookie_worked():
 		print("TEST COOKIE WORKED")
 		request.session.delete_test_cookie()
 	context_dict = {'author': "Haowen Li (2327962L)"}
-	visitor_cookie_handler(request)
 	context_dict['visits'] = request.session['visits']
 	return render(request, 'rango/about.html', context=context_dict)
 
@@ -160,4 +159,3 @@ def visitor_cookie_handler(request):
         request.session['last_visit'] = last_visit_cookie
 
     request.session['visits'] = visits
-
